@@ -27,7 +27,6 @@ class PlayerSearchViewModel @Inject constructor(
         searchText
             .toFlowable()
             .debounce(125L, TimeUnit.MILLISECONDS, Schedulers.computation())
-            .observeOn(Schedulers.io())
             .switchMap { query ->
                 playerStatService.searchPlayers(query)
             }.observeOn(AndroidSchedulers.mainThread())

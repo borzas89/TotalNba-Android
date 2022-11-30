@@ -16,5 +16,5 @@ data class PredictedMatch(
     val spread: Double? = null,
     val weekName: String? = null,
     val weekNumber: Int? = null,
-    val matchDate: Date? = null,
+    val matchDate: Date? = null
 ): BaseModel
