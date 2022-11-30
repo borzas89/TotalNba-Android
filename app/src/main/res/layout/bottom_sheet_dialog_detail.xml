@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="example.com.totalnba.ui.detail.DetailBottomSheetViewModel" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/rounded_rectangle"
+        android:orientation="vertical"
+        android:padding="26dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center_vertical"
+            android:indeterminateTint="@color/purple_200"
+            app:isVisibleOrGone="@{viewModel.isLoadingProgress()}" />
+
+        <TextView
+            android:id="@+id/matchTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="12dp"
+            android:text="@{viewModel.matchTitle}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="Dallas Mavericks @ Milwaukee Bucks" />
+
+        <LinearLayout
+            android:id="@+id/avgOverallLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/awayOverall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.awayOverall.overall}"
+                tools:text="112" />
+
+
+            <TextView
+                android:id="@+id/titleOverall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Avg Overalls"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                tools:text="Avg overalls" />
+
+
+            <TextView
+                android:id="@+id/homeOverall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.homeOverall.overall}"
+                tools:text="114.5" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/awayOverallLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/homeOverallAway"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.homeOverall.awayOverall}"
+                tools:text="114.5" />
+
+            <TextView
+                android:id="@+id/titleOverallAway"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Away Overalls"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                tools:text="Away overalls" />
+
+            <TextView
+                android:id="@+id/awayOverallAway"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.awayOverall.awayOverall}"
+                tools:text="112" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/homeOverallLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/homeOverallHome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.homeOverall.homeOverall}"
+                tools:text="114.5" />
+
+            <TextView
+                android:id="@+id/titleHomeOverall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Home Overalls"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                tools:text="Home overalls" />
+
+            <TextView
+                android:id="@+id/awayHomeOverall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.awayOverall.homeOverall}"
+                tools:text="112" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/teamAvgOverallLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/awayAvg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.awayOverall.teamAvg}"
+                tools:text="112" />
+
+
+            <TextView
+                android:id="@+id/titleAvgTeamOverall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Team avg"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                tools:text="Team avg" />
+
+
+            <TextView
+                android:id="@+id/homeAvg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.homeOverall.teamAvg}"
+                tools:text="114.5" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/teamHomeAvgOverallLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/awayAvgOverall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.awayOverall.teamHomeAvg}"
+                tools:text="112" />
+
+            <TextView
+                android:id="@+id/titleAvgHomeOverall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Team avg at home"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                tools:text="team avg at home" />
+
+            <TextView
+                android:id="@+id/homeAvgHome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.homeOverall.teamHomeAvg}"
+                tools:text="114.5" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/teamAwayAvgOverallLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/awayAvgOverallAway"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.awayOverall.teamAwayAvg}"
+                tools:text="112" />
+
+
+            <TextView
+                android:id="@+id/titleAvgAwayOverall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Team avg at away"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                tools:text="team avg at away" />
+
+            <TextView
+                android:id="@+id/homeAvgAway"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.homeOverall.teamAwayAvg}"
+                tools:text="114.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pointsForLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/awayPointsFor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.awayAdjustment.pointsPerGame}"
+                tools:text="112" />
+
+
+            <TextView
+                android:id="@+id/titlePointsFor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Points for"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                tools:text="team avg at away" />
+
+            <TextView
+                android:id="@+id/homePointsFor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.homeAdjustment.pointsPerGame}"
+                tools:text="114.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pointsAllowedLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/awayPointsAllowed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.awayAdjustment.allowedPointsPerGame}"
+                tools:text="112" />
+
+
+            <TextView
+                android:id="@+id/titlePointsAllowed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Points allowed"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                tools:text="team avg at away" />
+
+            <TextView
+                android:id="@+id/homePointsAllowed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:roundFormat="@{viewModel.homeAdjustment.allowedPointsPerGame}"
+                tools:text="114.5" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="fill_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
+            android:background="#8A504E4E" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

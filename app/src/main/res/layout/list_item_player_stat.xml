@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="color"
+            type="android.graphics.Color" />
+        <variable
+            name="playerStat"
+            type="example.com.totalnba.data.model.PlayerStat" />
+    </data>
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/nameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="8">
+
+        <ImageView
+            android:id="@+id/imageJersey"
+            app:image_url="@{playerStat.imageUrl}"
+            android:paddingStart="12dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_weight="1" />
+        <TextView
+            android:id="@+id/fullNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="@{playerStat.fullName}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="Giannis Antetokounpo" />
+
+        <TextView
+            android:id="@+id/teamText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="@{playerStat.team}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="Mil" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pointsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/pointsPerGame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:text="@string/points_game"
+            tools:text="Points/Game : " />
+
+
+        <TextView
+            android:id="@+id/pointsPerGameValue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            app:doubleFormat="@{playerStat.pointsPerGame}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="29.5" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reboundsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/reboundsPerGame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:text="@string/rebounds"
+            tools:text="Rebounds: " />
+
+
+        <TextView
+            android:id="@+id/reboundsPerGameValue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            app:doubleFormat="@{playerStat.reboundsPerGame}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="9.5" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/assistsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/assistsPerGame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:text="@string/assists"
+            tools:text="Assists: " />
+
+
+        <TextView
+            android:id="@+id/assistsPerGameValue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            app:doubleFormat="@{playerStat.assistsPerGame}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="9.5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/stealsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/stealsPerGame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:text="@string/steals"
+            tools:text="Steals: " />
+
+
+        <TextView
+            android:id="@+id/stealsPerGameValue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            app:doubleFormat="@{playerStat.stealsPerGame}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="9.5" />
+    </LinearLayout>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
