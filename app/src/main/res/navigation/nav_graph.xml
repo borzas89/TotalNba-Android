@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ListFragment">
+
+    <fragment
+        android:id="@+id/ListFragment"
+        android:name="example.com.totalnba.ui.prediction.PredictionListFragment"
+        android:label="List Fragment"
+        tools:layout="@layout/fragment_prediction_list">
+
+        <action
+            android:id="@+id/action_ListFragment_to_ResultFragment"
+            app:destination="@id/ResultFragment"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
+
+        <action
+            android:id="@+id/action_ListFragment_to_PlayerSearchFragment"
+            app:destination="@id/PlayerSearchFragment"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
+    </fragment>
+    <fragment
+        android:id="@+id/ResultFragment"
+        android:name="example.com.totalnba.ui.result.ResultFragment"
+        android:label="Result Fragment"
+        tools:layout="@layout/fragment_result">
+
+        <argument
+            android:name="teamName"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_ResultFragment_to_ListFragment"
+            app:destination="@id/ListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/PlayerSearchFragment"
+        android:name="example.com.totalnba.ui.player.PlayerSearchFragment"
+        android:label="Player Search Fragment"
+        tools:layout="@layout/fragment_player_search">
+
+    </fragment>
+</navigation>
