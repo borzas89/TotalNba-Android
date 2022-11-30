@@ -10,9 +10,8 @@ Used technologies:
 - Retrofit
 - RxJava
 - ViewModel
-- Jetpack Navigation, Compose
+- Jetpack Navigation, Compose, Room
 - Databinding
-- Room
 
 ![alt tag](https://github.com/borzas89/TotalNBA-Android/blob/main/screenshots/list_smaller.jpeg)
 ![alt tag](https://github.com/borzas89/TotalNBA-Android/blob/main/screenshots/detail_smaller.jpeg)
