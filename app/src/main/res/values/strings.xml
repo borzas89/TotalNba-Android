@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">TotalNBA</string>
+    <string name="event_title">%s  @  %s</string>
+    <string name="search_hint">Type NBA player name or team</string>
+    <string name="no_results">No results</string>
+    <string name="unknown">\?</string>
+    <string name="retry">Retry</string>
+    <string name="points_game">Points/Game:</string>
+    <string name="rebounds">Rebounds:</string>
+    <string name="assists">Assists:</string>
+    <string name="steals">Steals:</string>
+    <string name="content_description_back_nav">Back navigation</string>
+    <string name="wins_and_losses_count_title">"%d wins and %d losses"</string>
+</resources>
