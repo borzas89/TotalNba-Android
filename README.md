@@ -17,4 +17,4 @@ Used technologies:
 ![alt tag](https://github.com/borzas89/TotalNBA-Android/blob/main/screenshots/list_smaller.jpeg)
 ![alt tag](https://github.com/borzas89/TotalNBA-Android/blob/main/screenshots/detail_smaller.jpeg)
 ![alt tag](https://github.com/borzas89/TotalNBA-Android/blob/main/screenshots/results_smaller.jpeg)
-![alt tag](https://github.com/borzas89/TotalNBA--Android/blob/main/screenshots/player_search_smaller.jpeg)
+![alt tag](https://github.com/borzas89/TotalNBA-Android/blob/main/screenshots/player_search_smaller.jpeg)
