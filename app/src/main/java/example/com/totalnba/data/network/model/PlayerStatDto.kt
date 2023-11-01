@@ -25,6 +25,14 @@ data class PlayerStatDto(
     val stealsPerGame: Double? = 0.0,
     @SerializedName("pics_id")
     val picsId: String? = "",
+    @SerializedName("two_points_per_game")
+    val twoPointsPerGame: Double? = 0.0,
+    @SerializedName("three_points_per_game")
+    val threePointsPerGame: Double? = 0.0,
+    @SerializedName("pra_per_game")
+    val praPerGame: Double? = 0.0,
+    @SerializedName("points_assists_per_game")
+    val pointsAssistsPerGame: Double? = 0.0
 ) : BaseApiModel<PlayerStat> {
     override fun map(): PlayerStat =
         PlayerStat(
@@ -37,6 +45,10 @@ data class PlayerStatDto(
             reboundsPerGame = reboundsPerGame,
             assistsPerGame = assistsPerGame,
             stealsPerGame = stealsPerGame ?: 0.0,
-            playerPicsId = picsId ?: "no_image"
+            playerPicsId = picsId ?: "no_image",
+            twoPointsMade = twoPointsPerGame ?: 0.0,
+            threePointsMade = threePointsPerGame ?: 0.0,
+            pointsReboundsAssists = praPerGame ?: 0.0,
+            pointsAssists = pointsAssistsPerGame ?: 0.0
         )
 }

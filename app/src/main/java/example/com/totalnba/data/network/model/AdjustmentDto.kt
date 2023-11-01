@@ -37,10 +37,10 @@ data class AdjustmentDto(
     val homeEd: Double,
 
     @SerializedName("points_per_game")
-    val pointsPerGame: Double,
+    val pointsPerGame: Double? = 0.0,
 
     @SerializedName("allowed_points_per_game")
-    val allowedPointsPerGame: Double,
+    val allowedPointsPerGame: Double? = 0.0,
 
     @SerializedName("wins")
     val wins: Int?,

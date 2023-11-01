@@ -23,7 +23,8 @@ class DatabaseModule {
             "totalnba.db"
         ).addMigrations(
             AppDatabase.MIGRATION_1_2,
-            AppDatabase.MIGRATION_2_3
+            AppDatabase.MIGRATION_2_3,
+            AppDatabase.MIGRATION_3_4
         ).fallbackToDestructiveMigration().build()
 
     @Provides

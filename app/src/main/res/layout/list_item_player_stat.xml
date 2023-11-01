@@ -190,6 +190,145 @@
             tools:text="9.5" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/aggregatedLayout"
+        app:isVisibleOrGone="@{playerStat.pointsReboundsAssists > 0.0}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+     >
+
+    <LinearLayout
+        android:id="@+id/praLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/praPerGame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:text="PRA: "
+            tools:text="PRA " />
+
+        <TextView
+            android:id="@+id/praPerGameValue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            app:doubleFormat="@{playerStat.pointsReboundsAssists}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="9.5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/twoPointsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/twoPointsPerGame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:text="2 points made: "
+            tools:text="2 points " />
+
+
+        <TextView
+            android:id="@+id/twoPointsPerGameValue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            app:doubleFormat="@{playerStat.twoPointsMade}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="9.5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/threePointsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/threePointsPerGame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:text="3 points made: "
+            tools:text="2 points " />
+
+
+        <TextView
+            android:id="@+id/threePointsPerGameValue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            app:doubleFormat="@{playerStat.threePointsMade}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="9.5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pointsAssistLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/pointsAssistsPerGame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:text="Points + assists: "
+            tools:text="2 points " />
+
+        <TextView
+            android:id="@+id/pointsAssistsPerGameValue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            app:doubleFormat="@{playerStat.pointsAssists}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            tools:text="9.5" />
+    </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

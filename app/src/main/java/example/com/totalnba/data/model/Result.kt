@@ -16,7 +16,7 @@ data class Result (
     val awayName: String = "",
     val homeScore: Int = 0,
     val awayScore: Int = 0
-) : BaseModel{
+) : BaseModel {
     val highLightAwayWin get() = awayScore > homeScore
     val formattedMatchDate get() = matchTime.stringWithMonthAndDay
 }

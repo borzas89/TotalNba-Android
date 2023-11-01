@@ -45,6 +45,12 @@ interface TotalNbaApi {
     @GET("api/v2/player-stat/team/")
     fun getPlayerStatsByTeam(@Query("team") teamName: String): Single<List<PlayerStatDto>>
 
+    @GET("api/v2/player-stat/aggregatedByPlayerName/")
+    fun getAggregatedStatsByName(@Query("player") player: String): Maybe<AggregatedStatDto>
+
+    @GET("api/v2/player-stat/all-aggregated-stats/")
+    fun getAggregatedStats(): Single<List<AggregatedStatDto>>
+
     @GET("api/adjustments")
     fun getAdjustmentByTeamName(@Query("teamName") teamName: String): Single<AdjustmentDto>
 

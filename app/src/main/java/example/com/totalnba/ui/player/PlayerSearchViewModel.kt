@@ -33,7 +33,8 @@ class PlayerSearchViewModel @Inject constructor(
 
     init {
         playerStatService.updatePlayerStats()
-            .subscribe().addTo(compositeDisposable)
+            .subscribe()
+           .addTo(compositeDisposable)
 
         searchText.toFlowable()
             .subscribe()
@@ -43,7 +44,6 @@ class PlayerSearchViewModel @Inject constructor(
             _playerStatList.value = it
             refreshStates()
         }.addTo(compositeDisposable)
-
     }
 
     private fun refreshStates() {

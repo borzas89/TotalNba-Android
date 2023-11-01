@@ -1,7 +1,7 @@
 package example.com.totalnba.data.model
 
 import example.com.totalnba.data.base.BaseModel
-import java.util.*
+import java.util.Date
 
 data class PredictedMatch(
     override val id: Int,

@@ -6,8 +6,8 @@ data class Adjustment(
     override val id: Int,
     val team: String,
     val teamAbbreviation: String,
-    val pointsPerGame: Double,
-    val allowedPointsPerGame: Double,
+    val pointsPerGame: Double? = 0.0,
+    val allowedPointsPerGame: Double? = 0.0,
     val wins: Int?,
     val losses: Int?
 ) : BaseModel

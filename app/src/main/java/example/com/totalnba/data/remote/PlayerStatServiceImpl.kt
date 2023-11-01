@@ -4,7 +4,11 @@ import example.com.totalnba.data.base.map
 import example.com.totalnba.data.database.dao.PlayerStatDao
 import example.com.totalnba.data.model.PlayerStat
 import example.com.totalnba.data.network.TotalNbaApi
-import io.reactivex.*
+import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 

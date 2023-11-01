@@ -15,7 +15,7 @@ import example.com.totalnba.data.model.Result
         PlayerStat::class,
         Result::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -35,6 +35,15 @@ abstract class AppDatabase : RoomDatabase() {
         val MIGRATION_2_3 = object : Migration(2,3) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE player_stat ADD COLUMN playerPicsId TEXT")
+            }
+        }
+
+        val MIGRATION_3_4 = object : Migration(3,4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE player_stat ADD COLUMN pointsReboundsAssists REAL")
+                database.execSQL("ALTER TABLE player_stat ADD COLUMN twoPointsMade REAL")
+                database.execSQL("ALTER TABLE player_stat ADD COLUMN threePointsMade REAL")
+                database.execSQL("ALTER TABLE player_stat ADD COLUMN pointsAssists REAL")
             }
         }
     }
