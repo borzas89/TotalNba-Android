@@ -175,6 +175,20 @@ fun abbreviationResolverByTeamName(key: String) : String{
     teamMap["Utah Jazz" ] = "UTA"
     teamMap["Washington Wizards"] =  "WAS"
 
+    // WNBA
+    teamMap["Atlanta Dream"] =  "ATLW"
+    teamMap["Chicago Sky"] =  "CHIW"
+    teamMap["Connecticut Sun"] =  "CONW"
+    teamMap["Dallas Wings"] =  "DALW"
+    teamMap["Indiana Fever"] =  "INDW"
+    teamMap["Las Vegas Aces"] =  "LVAW"
+    teamMap["Los Angeles Sparks"] =  "LASW"
+    teamMap["Minnesota Lynx"] =  "MINW"
+    teamMap["New York Liberty"] =  "NYLW"
+    teamMap["Phoenix Mercury"] =  "PHOW"
+    teamMap["Seattle Storm"] =  "SEAW"
+    teamMap["Washington Mystics"] =  "WASW"
+
     return teamMap[key] ?: ""
 }
 

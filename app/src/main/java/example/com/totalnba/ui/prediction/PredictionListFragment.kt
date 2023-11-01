@@ -72,7 +72,7 @@ class PredictionListFragment : Fragment(),
         viewModel.showDetail.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { prediction ->
                 val id = prediction.id.toLong()
-                val awayTeam = prediction.awayTeam ?: ""
+                val awayTeam = prediction.awayTeam?: ""
                 val homeTeam = prediction.homeTeam ?: ""
                 openDetailDialog(id, homeTeam, awayTeam)
             }

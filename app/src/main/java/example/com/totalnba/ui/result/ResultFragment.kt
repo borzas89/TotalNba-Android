@@ -155,7 +155,6 @@ class ResultFragment : Fragment() {
                         .padding(start = 12.dp, bottom = 12.dp)
                 )
             }
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxHeight()
