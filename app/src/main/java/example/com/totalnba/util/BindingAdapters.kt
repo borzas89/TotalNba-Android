@@ -1,5 +1,6 @@
 package example.com.totalnba.util
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide
 import example.com.totalnba.R
 import example.com.totalnba.arch.BaseAdapter
 import example.com.totalnba.data.base.BaseModel
+import example.com.totalnba.ui.view.WinProgressView
 
 object BindingAdapters {
     @JvmStatic
@@ -66,6 +68,12 @@ object BindingAdapters {
         view.setBackgroundResource(backgroundResolverId(backgroundName))
     }
 
+    @JvmStatic
+    @BindingAdapter("setBackgroundAbbr")
+    fun setBackgroundAbbr(view: View, backgroundName: String) {
+        view.setBackgroundResource(backgroundResolverByAbbreviation(backgroundName))
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     @JvmStatic
     @BindingAdapter("android:tintMode")
@@ -90,7 +98,18 @@ object BindingAdapters {
         if (double == null) {
             view.text = "-"
         } else {
-            view.text = double.toString()
+            view.text = String.format("%.2f", double)
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    @JvmStatic
+    @BindingAdapter(value = ["doubleFormatPct"], requireAll = false)
+    fun bindDoubleValuesPct(view: TextView, double: Double?) {
+        if (double == null) {
+            view.text = "-"
+        } else {
+            view.text = String.format("%.2f", double) + " %"
         }
     }
 
@@ -113,5 +132,17 @@ object BindingAdapters {
             .circleCrop()
             .thumbnail()
             .into(imageView)
+    }
+
+    @JvmStatic
+    @BindingAdapter("setHomeProbability")
+    fun setHomeProbability(view: WinProgressView, winHome: Double){
+        view.winHomeFloat = winHome.toFloat()
+    }
+
+    @JvmStatic
+    @BindingAdapter("setAwayProbability")
+    fun setAwayProbability(view: WinProgressView, winAway: Double){
+        view.winAwayFloat = winAway.toFloat()
     }
 }
