@@ -24,11 +24,12 @@
 
         <ImageView
             android:id="@+id/imageJersey"
-            app:image_url="@{playerStat.imageUrl}"
-            android:paddingStart="12dp"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:src="@drawable/jersey"
+            app:setBackgroundAbbr="@{playerStat.team}"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
             android:layout_weight="1" />
+
         <TextView
             android:id="@+id/fullNameText"
             android:layout_width="wrap_content"
@@ -246,6 +247,7 @@
             android:textColor="@color/black"
             android:textSize="19sp"
             android:textStyle="bold"
+            android:visibility="gone"
             android:text="2 points made: "
             tools:text="2 points " />
 
@@ -257,6 +259,7 @@
             android:layout_weight="2"
             app:doubleFormat="@{playerStat.twoPointsMade}"
             android:textAlignment="center"
+            android:visibility="gone"
             android:textColor="@color/black"
             android:textSize="19sp"
             android:textStyle="bold"
@@ -268,6 +271,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:weightSum="4">
 
         <TextView

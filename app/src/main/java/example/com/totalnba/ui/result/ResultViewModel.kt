@@ -19,9 +19,11 @@ import example.com.totalnba.util.imageResolverId
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import org.threeten.bp.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
+private const val CURRENT_SEASON_START = "2023-10-24T00:00:00.63Z"
 @HiltViewModel
 class ResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -43,7 +45,6 @@ class ResultViewModel @Inject constructor(
                 teamNameState.value = teamName
                 teamColorState.value = backgroundResolverId(teamName)
                 teamImageState.value = imageResolverId(teamName)
-
                 getTeamResults(teamName)
                 getTeamAdjustments(teamName)
             }
@@ -62,7 +63,10 @@ class ResultViewModel @Inject constructor(
             .andThen(resultService.observeResultsByTeam(teamName))
             .subscribeBy(
                 onNext = { result ->
-                    teamResultListState.value = result
+                    teamResultListState.value = result.filter {
+                        it.matchTime
+                            .isAfter(Instant.parse(CURRENT_SEASON_START))
+                    }
                 },
                 onError = {
                     errorTitle.set("Something went wrong...")

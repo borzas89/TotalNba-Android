@@ -211,7 +211,8 @@ class ResultFragmentProvider : PreviewParameterProvider<ResultFragment.ResultScr
             teamImage = R.drawable.gsw,
             teamName = "Golden State Warriors",
             adjustment = Adjustment(1, "OKC","OKC",
-            0.0,0.0,11,2),
+            0.0,0.0,11,2,
+                0.5, 0.5, 0.5, 0.5),
             results = ResultSample.results
         )
     )
