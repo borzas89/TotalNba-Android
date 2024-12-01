@@ -9,5 +9,9 @@ data class Adjustment(
     val pointsPerGame: Double? = 0.0,
     val allowedPointsPerGame: Double? = 0.0,
     val wins: Int?,
-    val losses: Int?
+    val losses: Int?,
+    val awayWinPct: Double?,
+    val homeWinPct: Double?,
+    val lastTenStreak: Double?,
+    val totalPct: Double?
 ) : BaseModel

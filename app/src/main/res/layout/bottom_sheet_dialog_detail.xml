@@ -370,6 +370,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
             android:weightSum="8">
 
             <TextView
@@ -409,6 +410,60 @@
                 app:roundFormat="@{viewModel.homeAdjustment.allowedPointsPerGame}"
                 tools:text="114.5" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/winPctLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/awayPct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:doubleFormatPct="@{viewModel.awayWinPct}"
+                tools:text="112" />
+
+
+            <TextView
+                android:id="@+id/titlePct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Win probabilites"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                tools:text="team avg at away" />
+
+            <TextView
+                android:id="@+id/homePct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:doubleFormatPct="@{viewModel.homeWinPct}"
+                tools:text="114.5" />
+        </LinearLayout>
+
+        <example.com.totalnba.ui.view.WinProgressView
+            android:id="@+id/winPercentage"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/team_blue_light"
+            app:setAwayProbability="@{viewModel.awayWinPct}"
+            app:setHomeProbability="@{viewModel.homeWinPct}" />
 
         <View
             android:id="@+id/divider"

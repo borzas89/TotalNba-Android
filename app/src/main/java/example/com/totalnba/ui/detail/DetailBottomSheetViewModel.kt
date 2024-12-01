@@ -8,8 +8,8 @@ import example.com.totalnba.data.model.Adjustment
 import example.com.totalnba.data.model.Overall
 import example.com.totalnba.data.remote.AdjustmentService
 import example.com.totalnba.util.disposedBy
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +22,8 @@ class DetailBottomSheetViewModel @Inject constructor(
     val awayAdjustment = ObservableField<Adjustment>()
     val homeAdjustment = ObservableField<Adjustment>()
     val matchTitle = ObservableField<String>()
+    val homeWinPct = ObservableField<Double>()
+    val awayWinPct = ObservableField<Double>()
 
     init {
         if (savedStateHandle.contains("id")) {
@@ -47,15 +49,28 @@ class DetailBottomSheetViewModel @Inject constructor(
     }
 
     private fun getAdjustmentByTeams(homeName: String, awayName: String) {
-        adjustmentService.getAdjustmentByTeam(homeName)
-            .subscribeBy {
-                homeAdjustment.set(it)
-            }.disposedBy(compositeDisposable)
+      Single.zip(
+          adjustmentService.getAdjustmentByTeam(awayName),
+          adjustmentService.getAdjustmentByTeam(homeName)
+      ){ away, home  ->
+          awayAdjustment.set(away)
+          homeAdjustment.set(home)
+          calculateWinPercentage(away, home)
+      }.subscribe().disposedBy(compositeDisposable)
+    }
 
-        adjustmentService.getAdjustmentByTeam(awayName)
-            .subscribeBy {
-                awayAdjustment.set(it)
-            }.disposedBy(compositeDisposable)
+    private fun log5(home: Double, away: Double): Double {
+        return (home - home*away ) / ( home+away -2 * home * away )
+    }
+
+    private fun calculateWinPercentage(away: Adjustment, home: Adjustment) {
+        val calculatedHomeWinPct =((0.6*log5(home.homeWinPct ?: 0.0,
+            away.awayWinPct ?: 0.0) + 0.2*log5( home.totalPct ?: 0.0,
+            away.totalPct ?: 0.0)
+               + 0.2 *log5(home.lastTenStreak ?: 0.0,away.lastTenStreak ?: 0.0)
+                )*100)
+        homeWinPct.set(calculatedHomeWinPct)
+        awayWinPct.set(100 - calculatedHomeWinPct)
     }
 
     override fun onCleared() {
