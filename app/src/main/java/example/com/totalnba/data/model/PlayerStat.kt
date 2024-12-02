@@ -8,7 +8,7 @@ import example.com.totalnba.util.backgroundResolverByAbbreviation
 @Entity(tableName = "player_stat")
 data class PlayerStat(
     @PrimaryKey
-    override val id: Int = 0,
+    val id: Int = 0,
     val fullName: String = "",
     val team: String = "",
     val position: String = "",

@@ -4,7 +4,7 @@ import example.com.totalnba.data.base.BaseModel
 import java.util.Date
 
 data class PredictedMatch(
-    override val id: Int,
+    val commonMatchId: String,
     val matchTitle: String? = null,
     val homeTeam: String? = null,
     val awayTeam: String? = null,

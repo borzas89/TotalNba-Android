@@ -71,7 +71,7 @@ class PredictionListFragment : Fragment(),
 
         viewModel.showDetail.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { prediction ->
-                val id = prediction.id.toLong()
+                val id = prediction.commonMatchId
                 val awayTeam = prediction.awayTeam?: ""
                 val homeTeam = prediction.homeTeam ?: ""
                 openDetailDialog(id, homeTeam, awayTeam)
@@ -86,7 +86,7 @@ class PredictionListFragment : Fragment(),
     }
 
     private fun openDetailDialog(
-        id: Long,
+        id: String,
         homeName: String,
         awayName: String
     ) {
@@ -117,5 +117,4 @@ class PredictionListFragment : Fragment(),
         val formatter = format1.format(date.date.atStartOfDay())
         viewModel.filterDay.onNext(formatter)
     }
-
 }

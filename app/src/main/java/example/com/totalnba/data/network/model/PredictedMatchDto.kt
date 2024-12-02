@@ -2,11 +2,13 @@ package example.com.totalnba.data.network.model
 
 import com.google.gson.annotations.SerializedName;
 import example.com.totalnba.data.base.BaseApiModel
-import example.com.totalnba.data.model.Overall
 import example.com.totalnba.data.model.PredictedMatch
 import java.util.*
 
 data class PredictedMatchDto(
+
+    @SerializedName("commonMatchId")
+    val commonMatchId: String,
 
     @SerializedName("homeTeamName")
     val homeTeam: String? = null,
@@ -42,11 +44,11 @@ data class PredictedMatchDto(
     val weekNumber: Int? = null,
 
     @SerializedName("matchDate")
-    val matchDate: Date? = null,
+    val matchDate: Date? = null
+
 ) : BaseApiModel<PredictedMatch>{
     override fun map(): PredictedMatch = PredictedMatch(
-        // TODO id and commonMatch id to be added
-        id = Random().nextInt(),
+        commonMatchId = commonMatchId,
         matchTitle  = "$awayTeam @ $homeTeam",
         awayTeam = awayTeam,
         homeTeam = homeTeam,

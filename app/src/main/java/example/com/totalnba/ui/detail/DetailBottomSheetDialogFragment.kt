@@ -68,13 +68,13 @@ class DetailBottomSheetDialogFragment : BottomSheetDialogFragment() {
     companion object {
         @JvmStatic
         fun newInstance(
-            Id: Long,
+            id: String,
             homeTeamName: String,
             awayTeamName: String
         ): DetailBottomSheetDialogFragment {
             return DetailBottomSheetDialogFragment().apply {
                 arguments = Bundle().also { bundle ->
-                    bundle.putLong("id", Id)
+                    bundle.putString("id", id)
                     bundle.putString("homeName", homeTeamName)
                     bundle.putString("awayName", awayTeamName)
                 }

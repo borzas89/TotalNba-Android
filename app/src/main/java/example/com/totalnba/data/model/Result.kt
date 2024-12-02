@@ -9,7 +9,7 @@ import org.threeten.bp.Instant
 @Entity(tableName = "result")
 data class Result (
     @PrimaryKey
-    override val id: Int,
+    val id: Int,
     val matchId: String = "",
     val matchTime: Instant,
     val homeName: String = "",

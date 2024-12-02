@@ -29,7 +29,6 @@ abstract class BaseAdapter<BINDING : ViewDataBinding, T : BaseModel>(
             parent,
             false
         )
-
         return BaseViewHolder(binder)
     }
 
