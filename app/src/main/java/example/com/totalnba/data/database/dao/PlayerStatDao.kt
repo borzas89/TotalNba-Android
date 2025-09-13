@@ -14,7 +14,7 @@ import io.reactivex.Observable
 interface PlayerStatDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(playerStat: List<PlayerStat>?) : Completable
+    fun save(playerStat: List<PlayerStat>) : Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(playerStat: PlayerStat) : Completable

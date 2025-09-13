@@ -17,7 +17,7 @@ import javax.inject.Singleton
 class NetworkModule {
 
     companion object {
-      private const val API_URL ="https://totalnba.herokuapp.com/"
+      private const val API_URL ="https://totalnba-64d9e912c803.herokuapp.com/"
     }
 
     @Singleton

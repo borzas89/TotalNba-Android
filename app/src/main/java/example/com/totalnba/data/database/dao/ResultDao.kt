@@ -13,7 +13,7 @@ import example.com.totalnba.data.model.Result
 interface ResultDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(result: List<Result>?) : Completable
+    fun save(result: List<Result>) : Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(result: Result) : Completable
