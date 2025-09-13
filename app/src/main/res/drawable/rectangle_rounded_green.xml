@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019-2020 by OTP Bank Plc. All rights reserved.
+  ~
+  ~ The copyright to the computer software herein is the property of
+  ~ OTP Bank Plc or its licensors. The software may be used and/or
+  ~ copied only with the written permission of OTP Bank Plc or in
+  ~ accordance with the terms and conditions stipulated in the
+  ~ agreement/contract under which the software has been supplied.
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+
+    <corners android:radius="90dp" />
+    <solid android:color="@color/colorPrimary" />
+</shape>

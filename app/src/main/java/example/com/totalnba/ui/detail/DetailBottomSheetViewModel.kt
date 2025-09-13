@@ -19,6 +19,7 @@ class DetailBottomSheetViewModel @Inject constructor(
 ) : BaseViewModel() {
     val homeOverall = ObservableField<Overall>()
     val awayOverall = ObservableField<Overall>()
+    val overalls = ObservableField<Pair<Overall, Overall>>()
     val awayAdjustment = ObservableField<Adjustment>()
     val homeAdjustment = ObservableField<Adjustment>()
     val matchTitle = ObservableField<String>()
@@ -42,6 +43,7 @@ class DetailBottomSheetViewModel @Inject constructor(
         adjustmentService.getOverallsByTeams(homeName, awayName)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { overall ->
+                overalls.set(Pair(overall[0],overall[1]))
                 homeOverall.set(overall[0])
                 awayOverall.set(overall[1])
             }

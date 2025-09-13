@@ -15,13 +15,12 @@ class WinProgressView : View {
     constructor(context: Context, attrs: AttributeSet,
                 defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    val paint = Paint()
+    private val paint = Paint()
     private var sum = 100.0f
 
     var winHomeFloat = 0.0f
         set(value) {
             field = value
-
             postInvalidate()
         }
 

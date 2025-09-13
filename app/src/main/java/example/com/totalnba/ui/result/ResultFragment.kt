@@ -186,8 +186,8 @@ class ResultFragment : Fragment() {
         val results: List<Result>,
     )
 
-    @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, group = "Light Mode", showSystemUi = true)
-    @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, group = "Dark Mode", showSystemUi = true)
+    @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, group = "Light Mode", showSystemUi = false)
+    @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, group = "Dark Mode", showSystemUi = false)
     @Composable
     fun ResultFragmentPreview(@PreviewParameter(ResultFragmentProvider::class) data: ResultScreenPreviewData) {
         AndroidThreeTen.init(LocalContext.current)
