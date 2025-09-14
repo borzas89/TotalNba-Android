@@ -26,6 +26,14 @@ class AppNavigatorImpl @Inject constructor(
         navController.navigate(R.id.ResultFragment, bundle)
     }
 
+    override fun navigateToStandings() {
+        navController.navigate(R.id.StandingsFragment)
+    }
+
+    override fun navigateToSettings() {
+        navController.navigate(R.id.SettingsFragment)
+    }
+
     override fun popBackStack() {
         navController.popBackStack()
     }

@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/ListFragment"
-        android:name="example.com.totalnba.ui.prediction.PredictionListFragment"
-        android:label="List Fragment"
+        android:name="example.com.totalnba.ui.prediction.ModernPredictionListFragment"
+        android:label="NBA Predictions"
         tools:layout="@layout/fragment_prediction_list">
 
         <action
@@ -20,6 +20,12 @@
         <action
             android:id="@+id/action_ListFragment_to_PlayerSearchFragment"
             app:destination="@id/PlayerSearchFragment"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
+
+        <action
+            android:id="@+id/action_ListFragment_to_StandingsFragment"
+            app:destination="@id/StandingsFragment"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out"/>
     </fragment>
@@ -49,6 +55,19 @@
         android:name="example.com.totalnba.ui.player.PlayerSearchFragment"
         android:label="Player Search Fragment"
         tools:layout="@layout/fragment_player_search">
+    </fragment>
 
+    <fragment
+        android:id="@+id/StandingsFragment"
+        android:name="example.com.totalnba.ui.standings.StandingsFragment"
+        android:label="NBA Standings"
+        tools:layout="@layout/fragment_standings">
+    </fragment>
+
+    <fragment
+        android:id="@+id/SettingsFragment"
+        android:name="example.com.totalnba.ui.settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings">
     </fragment>
 </navigation>
