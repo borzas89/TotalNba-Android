@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import example.com.totalnba.databinding.ActivityMainBinding
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         composeView.setContent {
             AppTheme {
                 FloatingNavigationOverlay(
+                    navController = navController,
                     onNavigationItemSelected = { item ->
                         handleNavigation(item)
                     }
@@ -114,25 +116,47 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 private fun FloatingNavigationOverlay(
+    navController: NavController,
     onNavigationItemSelected: (NavigationItem) -> Unit
 ) {
     var selectedNavItem by remember { mutableStateOf(NavigationItem.PREDICTIONS) }
+    val currentDestination by navController.currentBackStackEntryAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        // Transparent overlay - just for positioning the navigation
-        Column(
-            modifier = Modifier.align(Alignment.BottomCenter)
+    // Determine if floating nav should be visible (hide on detail screens)
+    val shouldShowFloatingNav = when (currentDestination?.destination?.id) {
+        R.id.ResultFragment -> false // Hide on Result detail screen
+        // Add other detail screens here if needed
+        else -> true
+    }
+
+    // Update selected item based on current destination
+    LaunchedEffect(currentDestination) {
+        selectedNavItem = when (currentDestination?.destination?.id) {
+            R.id.ListFragment -> NavigationItem.PREDICTIONS
+            R.id.PlayerSearchFragment -> NavigationItem.PLAYER_SEARCH
+            R.id.StandingsFragment -> NavigationItem.STANDINGS
+            R.id.SettingsFragment -> NavigationItem.PROFILE
+            else -> selectedNavItem // Keep current selection for detail screens
+        }
+    }
+
+    if (shouldShowFloatingNav) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            BottomFloatingNavigation(
-                selectedItem = selectedNavItem,
-                onItemSelected = { item ->
-                    selectedNavItem = item
-                    onNavigationItemSelected(item)
-                }
-            )
+            // Transparent overlay - just for positioning the navigation
+            Column(
+                modifier = Modifier.align(Alignment.BottomCenter)
+            ) {
+                BottomFloatingNavigation(
+                    selectedItem = selectedNavItem,
+                    onItemSelected = { item ->
+                        selectedNavItem = item
+                        onNavigationItemSelected(item)
+                    }
+                )
+            }
         }
     }
 }

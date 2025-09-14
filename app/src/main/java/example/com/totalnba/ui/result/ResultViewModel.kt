@@ -8,7 +8,6 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import example.com.totalnba.R
 import example.com.totalnba.arch.BaseViewModel
-import example.com.totalnba.arch.Event
 import example.com.totalnba.data.model.Adjustment
 import example.com.totalnba.data.model.Result
 import example.com.totalnba.data.remote.AdjustmentService
@@ -29,7 +28,7 @@ class ResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val resultService: ResultService,
     private val adjustmentService: AdjustmentService
-) : BaseViewModel(), ResultViewModelUiActions {
+) : BaseViewModel() {
     private val errorTitle = ObservableField<String>()
     private var allResults: List<Result> = emptyList()
     private var opponentTeamName: String = ""
@@ -40,7 +39,6 @@ class ResultViewModel @Inject constructor(
     val teamNameState: MutableState<String> = mutableStateOf("")
     val opponentNameState: MutableState<String> = mutableStateOf("")
     val adjustment: MutableState<Adjustment?> = mutableStateOf(null)
-    val navigateBack = MutableLiveData<Event<String>>()
     val currentFilter: MutableState<FilterType> = mutableStateOf(FilterType.ALL_GAMES)
     val showFilterDialog: MutableState<Boolean> = mutableStateOf(false)
 
@@ -124,16 +122,4 @@ class ResultViewModel @Inject constructor(
             .disposedBy(compositeDisposable)
     }
 
-    override val navigateUp: () -> Unit = {
-        navigateBack.value = Event("back")
-    }
-
-    override val onShowFilterDialog: () -> Unit = {
-        showFilterDialog()
-    }
-}
-
-interface ResultViewModelUiActions {
-    val navigateUp: () -> Unit
-    val onShowFilterDialog: () -> Unit
 }
