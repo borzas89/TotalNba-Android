@@ -79,8 +79,11 @@ class PredictionListFragment : Fragment(),
         }
 
         viewModel.showResult.observe(viewLifecycleOwner) {
-            it.getContentIfNotHandled()?.let { teamName ->
-                navigator.navigateToResults(teamName)
+            it.getContentIfNotHandled()?.let { teamData ->
+                val parts = teamData.split("|")
+                val teamName = parts[0]
+                val opponentName = if (parts.size > 1) parts[1] else ""
+                navigator.navigateToResults(teamName, opponentName)
             }
         }
     }

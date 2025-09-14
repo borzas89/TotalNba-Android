@@ -23,7 +23,7 @@ import org.threeten.bp.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
-private const val CURRENT_SEASON_START = "2023-10-24T00:00:00.63Z"
+private const val CURRENT_SEASON_START = "2024-10-24T00:00:00.63Z"
 @HiltViewModel
 class ResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -31,13 +31,18 @@ class ResultViewModel @Inject constructor(
     private val adjustmentService: AdjustmentService
 ) : BaseViewModel(), ResultViewModelUiActions {
     private val errorTitle = ObservableField<String>()
+    private var allResults: List<Result> = emptyList()
+    private var opponentTeamName: String = ""
 
     val teamColorState: MutableState<Int> = mutableStateOf(R.color.team_purple)
     val teamImageState: MutableState<Int> = mutableStateOf(R.drawable.splash_icon)
     val teamResultListState: MutableState<List<Result>> = mutableStateOf(emptyList())
     val teamNameState: MutableState<String> = mutableStateOf("")
+    val opponentNameState: MutableState<String> = mutableStateOf("")
     val adjustment: MutableState<Adjustment?> = mutableStateOf(null)
     val navigateBack = MutableLiveData<Event<String>>()
+    val currentFilter: MutableState<FilterType> = mutableStateOf(FilterType.ALL_GAMES)
+    val showFilterDialog: MutableState<Boolean> = mutableStateOf(false)
 
     init {
         if (savedStateHandle.contains("teamName")) {
@@ -45,16 +50,51 @@ class ResultViewModel @Inject constructor(
                 teamNameState.value = teamName
                 teamColorState.value = backgroundResolverId(teamName)
                 teamImageState.value = imageResolverId(teamName)
+
+                // Get opponent team name if available
+                savedStateHandle.getLiveData("opponentName", "").value?.let { opponent ->
+                    opponentTeamName = opponent
+                    opponentNameState.value = opponent
+                }
+
                 getTeamResults(teamName)
                 getTeamAdjustments(teamName)
             }
         }
     }
 
-    fun filterTeamResult(){
-        teamResultListState.value.filter {
-            it.awayName == teamNameState.value
+    private fun applyFilter() {
+        val filteredResults = when (currentFilter.value) {
+            FilterType.ALL_GAMES -> allResults
+            FilterType.LAST_TEN_GAMES -> allResults
+                .sortedByDescending { it.matchTime }
+                .take(10)
+            FilterType.HOME_GAMES -> allResults.filter { result ->
+                result.homeName == teamNameState.value
+            }
+            FilterType.AWAY_GAMES -> allResults.filter { result ->
+                result.awayName == teamNameState.value
+            }
+            FilterType.HEAD_TO_HEAD -> allResults.filter { result ->
+                (result.homeName == teamNameState.value && result.awayName == opponentTeamName) ||
+                (result.awayName == teamNameState.value && result.homeName == opponentTeamName)
+            }
         }
+        teamResultListState.value = filteredResults
+    }
+
+    fun onFilterSelected(filterType: FilterType) {
+        currentFilter.value = filterType
+        applyFilter()
+        showFilterDialog.value = false
+    }
+
+    fun showFilterDialog() {
+        showFilterDialog.value = true
+    }
+
+    fun hideFilterDialog() {
+        showFilterDialog.value = false
     }
 
     private fun getTeamResults(teamName: String) {
@@ -63,10 +103,11 @@ class ResultViewModel @Inject constructor(
             .andThen(resultService.observeResultsByTeam(teamName))
             .subscribeBy(
                 onNext = { result ->
-                    teamResultListState.value = result.filter {
+                    allResults = result.filter {
                         it.matchTime
                             .isAfter(Instant.parse(CURRENT_SEASON_START))
                     }
+                    applyFilter()
                 },
                 onError = {
                     errorTitle.set("Something went wrong...")
@@ -86,8 +127,13 @@ class ResultViewModel @Inject constructor(
     override val navigateUp: () -> Unit = {
         navigateBack.value = Event("back")
     }
+
+    override val onShowFilterDialog: () -> Unit = {
+        showFilterDialog()
+    }
 }
 
 interface ResultViewModelUiActions {
     val navigateUp: () -> Unit
+    val onShowFilterDialog: () -> Unit
 }

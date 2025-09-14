@@ -78,8 +78,8 @@ class PredictionListViewModel @Inject constructor(
         showDetail.value = Event(prediction)
     }
 
-    override fun onTeamClicked(teamName: String) {
-        showResult.value = Event(teamName)
+    override fun onTeamClicked(teamName: String, opponentName: String) {
+        showResult.value = Event("$teamName|$opponentName")
     }
 
     override fun onCleared() {

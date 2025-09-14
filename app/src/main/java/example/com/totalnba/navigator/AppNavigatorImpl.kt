@@ -18,8 +18,11 @@ class AppNavigatorImpl @Inject constructor(
        navController.navigate(R.id.PlayerSearchFragment)
     }
 
-    override fun navigateToResults(teamName: String) {
-        val bundle = bundleOf("teamName" to teamName)
+    override fun navigateToResults(teamName: String, opponentName: String) {
+        val bundle = bundleOf(
+            "teamName" to teamName,
+            "opponentName" to opponentName
+        )
         navController.navigate(R.id.ResultFragment, bundle)
     }
 

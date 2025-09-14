@@ -23,5 +23,5 @@ class PredictionAdapter (
 
 interface PredictionListener {
     fun onPredictionClicked(prediction: PredictedMatch)
-    fun onTeamClicked(teamName: String)
+    fun onTeamClicked(teamName: String, opponentName: String)
 }

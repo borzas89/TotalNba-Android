@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
+import androidx.compose.material.IconButton
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -77,8 +80,11 @@ class ResultFragment : Fragment() {
         val teamColor by viewModel.teamColorState
         val teamImage by viewModel.teamImageState
         val teamName by viewModel.teamNameState
+        val opponentName by viewModel.opponentNameState
         val adjustment by viewModel.adjustment
         val results by viewModel.teamResultListState
+        val showDialog by viewModel.showFilterDialog
+        val currentFilter by viewModel.currentFilter
 
         MaterialTheme {
             Screen(
@@ -86,8 +92,13 @@ class ResultFragment : Fragment() {
                 teamColor = teamColor,
                 teamImage = teamImage,
                 teamName = teamName,
+                opponentName = opponentName,
                 adjustment = adjustment,
-                elements = results
+                elements = results,
+                showFilterDialog = showDialog,
+                currentFilter = currentFilter,
+                onFilterSelected = viewModel::onFilterSelected,
+                onDismissDialog = viewModel::hideFilterDialog
             )
         }
     }
@@ -98,8 +109,13 @@ class ResultFragment : Fragment() {
         teamColor: Int,
         teamImage: Int,
         teamName: String,
+        opponentName: String,
         adjustment: Adjustment?,
         elements: List<Result>,
+        showFilterDialog: Boolean,
+        currentFilter: FilterType,
+        onFilterSelected: (FilterType) -> Unit,
+        onDismissDialog: () -> Unit
     ) {
         setStatusBarColor(colorResource(id = teamColor))
         Column(modifier = Modifier.fillMaxSize()) {
@@ -113,6 +129,15 @@ class ResultFragment : Fragment() {
                     vector = Icons.Filled.ArrowBack,
                     action = uiActions.navigateUp
                 ),
+                actions = {
+                    IconButton(onClick = uiActions.onShowFilterDialog) {
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = "Filter",
+                            tint = Color.White
+                        )
+                    }
+                }
             )
 
             Row(
@@ -170,18 +195,31 @@ class ResultFragment : Fragment() {
                 }
             }
         }
+
+        // Filter Dialog
+        if (showFilterDialog) {
+            FilterDialog(
+                currentFilter = currentFilter,
+                onFilterSelected = onFilterSelected,
+                onDismiss = onDismissDialog,
+                homeTeamName = teamName,
+                awayTeamName = opponentName.ifEmpty { "Opponent" }
+            )
+        }
     }
 
 
 //region preview
     private val previewUiActions = object : ResultViewModelUiActions {
         override val navigateUp: () -> Unit = {}
+        override val onShowFilterDialog: () -> Unit = {}
     }
 
     data class ResultScreenPreviewData(
         val teamColor: Int,
         val teamImage: Int,
         val teamName: String,
+        val opponentName: String,
         val adjustment: Adjustment,
         val results: List<Result>,
     )
@@ -197,8 +235,13 @@ class ResultFragment : Fragment() {
                 teamColor = data.teamColor,
                 teamImage = data.teamImage,
                 teamName = data.teamName,
+                opponentName = data.opponentName,
                 adjustment = data.adjustment,
-                elements = data.results
+                elements = data.results,
+                showFilterDialog = false,
+                currentFilter = FilterType.ALL_GAMES,
+                onFilterSelected = {},
+                onDismissDialog = {}
             )
         }
     }
@@ -210,7 +253,8 @@ class ResultFragmentProvider : PreviewParameterProvider<ResultFragment.ResultScr
             teamColor = R.color.team_blue,
             teamImage = R.drawable.gsw,
             teamName = "Golden State Warriors",
-            adjustment = Adjustment(1, "OKC","OKC",
+            opponentName = "Los Angeles Lakers",
+            adjustment = Adjustment(1, "GSW","GSW",
             0.0,0.0,11,2,
                 0.5, 0.5, 0.5, 0.5),
             results = ResultSample.results

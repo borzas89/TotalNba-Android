@@ -61,7 +61,7 @@
                         android:layout_weight="1"
                         android:scaleType="fitCenter"
                         app:setImage="@{prediction.awayTeam}"
-                        android:onClick="@{() -> listener.onTeamClicked(prediction.awayTeam)}"
+                        android:onClick="@{() -> listener.onTeamClicked(prediction.awayTeam, prediction.homeTeam)}"
                         android:src="@drawable/atl"
                         android:transitionName="image" />
 
@@ -104,7 +104,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
                         app:setImage="@{prediction.homeTeam}"
-                        android:onClick="@{() -> listener.onTeamClicked(prediction.homeTeam)}"
+                        android:onClick="@{() -> listener.onTeamClicked(prediction.homeTeam, prediction.awayTeam)}"
                         android:scaleType="fitCenter"
                         android:src="@drawable/bkn" />
                 </LinearLayout>
