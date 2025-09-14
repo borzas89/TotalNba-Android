@@ -62,17 +62,25 @@ class DetailBottomSheetViewModel @Inject constructor(
     }
 
     private fun log5(home: Double, away: Double): Double {
-        return (home - home*away ) / ( home+away -2 * home * away )
+        val clampedHome = home.coerceIn(0.01, 0.99)
+        val clampedAway = away.coerceIn(0.01, 0.99)
+        return (clampedHome - clampedHome * clampedAway) / (clampedHome + clampedAway - 2 * clampedHome * clampedAway)
     }
 
     private fun calculateWinPercentage(away: Adjustment, home: Adjustment) {
-        val calculatedHomeWinPct =((0.6*log5(home.homeWinPct ?: 0.0,
-            away.awayWinPct ?: 0.0) + 0.2*log5( home.totalPct ?: 0.0,
-            away.totalPct ?: 0.0)
-               + 0.2 *log5(home.lastTenStreak ?: 0.0,away.lastTenStreak ?: 0.0)
-                )*100)
-        homeWinPct.set(calculatedHomeWinPct)
-        awayWinPct.set(100 - calculatedHomeWinPct)
+        val homeWinPctValue = home.homeWinPct ?: 0.5
+        val awayWinPctValue = away.awayWinPct ?: 0.5
+        val homeTotalPct = home.totalPct ?: 0.5
+        val awayTotalPct = away.totalPct ?: 0.5
+        val homeLastTen = home.lastTenStreak ?: 0.5
+        val awayLastTen = away.lastTenStreak ?: 0.5
+
+        val calculatedHomeWinPct = ((0.6 * log5(homeWinPctValue, awayWinPctValue) +
+                                   0.2 * log5(homeTotalPct, awayTotalPct) +
+                                   0.2 * log5(homeLastTen, awayLastTen)) * 100)
+
+        homeWinPct.set(calculatedHomeWinPct.coerceIn(5.0, 95.0))
+        awayWinPct.set((100 - calculatedHomeWinPct).coerceIn(5.0, 95.0))
     }
 
     override fun onCleared() {
