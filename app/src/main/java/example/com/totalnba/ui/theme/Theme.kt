@@ -1,11 +1,14 @@
 package example.com.totalnba.ui.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Typography
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -14,10 +17,59 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import example.com.totalnba.R
 
+private val LightColorPalette = lightColors(
+    primary = Color(0xFF4A5FBA),
+    primaryVariant = Color(0xFF3A4F9A),
+    secondary = Color(0xFFFF8C42),
+    background = Color(0xFFFAFAFA),
+    surface = Color(0xFFFFFFFF),
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color(0xFF1A1A1A),
+    onSurface = Color(0xFF1A1A1A)
+)
+
+private val DarkColorPalette = darkColors(
+    primary = Color(0xFF5A6FCA),
+    primaryVariant = Color(0xFF4A5FBA),
+    secondary = Color(0xFFFF8C42),
+    background = Color(0xFF121212),
+    surface = Color(0xFF1E1E1E),
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color(0xFFFFFFFF),
+    onSurface = Color(0xFFFFFFFF)
+)
+
 @Composable
-fun AppTheme(content: @Composable () -> Unit) {
+fun AppTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colors = if (darkTheme) {
+        DarkColorPalette
+    } else {
+        LightColorPalette
+    }
+
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        // Set only status bar color, not action bar to avoid black bar in dark mode
+        systemUiController.setStatusBarColor(
+            color = colors.primary,
+            darkIcons = false
+        )
+        // Make navigation bar transparent
+        systemUiController.setNavigationBarColor(
+            color = colors.background,
+            darkIcons = !darkTheme
+        )
+    }
+
     MaterialTheme(
+        colors = colors,
         typography = typography,
+        shapes = Shapes,
         content = content
     )
 }
