@@ -5,5 +5,6 @@ interface AppNavigator {
     fun navigateToResults(teamName: String, opponentName: String = "")
     fun navigateToStandings()
     fun navigateToSettings()
+    fun navigateToTotalStats()
     fun popBackStack()
 }

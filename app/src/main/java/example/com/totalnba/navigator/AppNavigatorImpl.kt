@@ -34,6 +34,10 @@ class AppNavigatorImpl @Inject constructor(
         navController.navigate(R.id.SettingsFragment)
     }
 
+    override fun navigateToTotalStats() {
+        navController.navigate(R.id.TotalStatsWebViewFragment)
+    }
+
     override fun popBackStack() {
         navController.popBackStack()
     }

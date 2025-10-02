@@ -83,6 +83,12 @@ class DetailBottomSheetViewModel @Inject constructor(
         awayWinPct.set((100 - calculatedHomeWinPct).coerceIn(5.0, 95.0))
     }
 
+    fun setupGame(gameId: String, homeTeam: String, awayTeam: String) {
+        matchTitle.set("$awayTeam @ $homeTeam")
+        getOverallsByTeams(homeTeam, awayTeam)
+        getAdjustmentByTeams(homeTeam, awayTeam)
+    }
+
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()

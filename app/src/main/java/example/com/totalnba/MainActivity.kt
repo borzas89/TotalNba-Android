@@ -125,6 +125,7 @@ private fun FloatingNavigationOverlay(
     // Determine if floating nav should be visible (hide on detail screens)
     val shouldShowFloatingNav = when (currentDestination?.destination?.id) {
         R.id.ResultFragment -> false // Hide on Result detail screen
+        R.id.TotalStatsWebViewFragment -> false // Hide on WebView screen
         // Add other detail screens here if needed
         else -> true
     }

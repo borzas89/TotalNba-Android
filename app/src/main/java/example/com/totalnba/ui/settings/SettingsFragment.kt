@@ -15,6 +15,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.res.painterResource
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -53,7 +54,8 @@ class SettingsFragment : Fragment() {
                         onBackPressed = {
                             navigator.popBackStack()
                         },
-                        context = requireContext()
+                        context = requireContext(),
+                        navigator = navigator
                     )
                 }
             }
@@ -64,7 +66,8 @@ class SettingsFragment : Fragment() {
 @Composable
 fun SettingsScreen(
     onBackPressed: () -> Unit,
-    context: Context
+    context: Context,
+    navigator: AppNavigator
 ) {
     var currentThemeMode by remember {
         mutableStateOf(
@@ -121,6 +124,14 @@ fun SettingsScreen(
                         title = "TotalNBA",
                         subtitle = "NBA Game Predictions & Stats",
                         icon = Icons.Filled.Settings
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    TotalStatsButton(
+                        onClick = {
+                            navigator.navigateToTotalStats()
+                        }
                     )
                 }
             }
@@ -272,6 +283,50 @@ fun InfoCard(
     }
 }
 
+@Composable
+fun TotalStatsButton(
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
+        shape = RoundedCornerShape(12.dp),
+        backgroundColor = MaterialTheme.colors.primary,
+        elevation = 2.dp
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Info,
+                contentDescription = "TotalStats",
+                tint = MaterialTheme.colors.onPrimary,
+                modifier = Modifier.size(32.dp)
+            )
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = "TotalStats",
+                    style = MaterialTheme.typography.subtitle1,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.onPrimary
+                )
+                Text(
+                    text = "Visit our web platform for advanced analytics",
+                    style = MaterialTheme.typography.body2,
+                    color = MaterialTheme.colors.onPrimary.copy(alpha = 0.8f)
+                )
+            }
+        }
+    }
+}
+
 enum class ThemeMode(val displayName: String) {
     LIGHT("Light"),
     DARK("Dark"),
@@ -281,10 +336,19 @@ enum class ThemeMode(val displayName: String) {
 @Preview
 @Composable
 fun SettingsScreenPreview() {
+    val mockNavigator = object : AppNavigator {
+        override fun navigateToPlayerSearch() {}
+        override fun navigateToResults(teamName: String, opponentName: String) {}
+        override fun navigateToStandings() {}
+        override fun navigateToSettings() {}
+        override fun navigateToTotalStats() {}
+        override fun popBackStack() {}
+    }
     AppTheme {
         SettingsScreen(
             onBackPressed = { },
-            context = androidx.compose.ui.platform.LocalContext.current
+            context = androidx.compose.ui.platform.LocalContext.current,
+            navigator = mockNavigator
         )
     }
 }
