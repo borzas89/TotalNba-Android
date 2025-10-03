@@ -42,6 +42,10 @@ class ResultViewModel @Inject constructor(
     val currentFilter: MutableState<FilterType> = mutableStateOf(FilterType.ALL_GAMES)
     val showFilterDialog: MutableState<Boolean> = mutableStateOf(false)
 
+    // Filtered wins and losses based on current filter
+    val filteredWins: MutableState<Int> = mutableStateOf(0)
+    val filteredLosses: MutableState<Int> = mutableStateOf(0)
+
     init {
         if (savedStateHandle.contains("teamName")) {
             savedStateHandle.getLiveData("teamName", "").value?.let { teamName ->
@@ -64,6 +68,9 @@ class ResultViewModel @Inject constructor(
     private fun applyFilter() {
         val filteredResults = when (currentFilter.value) {
             FilterType.ALL_GAMES -> allResults
+            FilterType.LAST_FIVE_GAMES -> allResults
+                .sortedByDescending { it.matchTime }
+                .take(5)
             FilterType.LAST_TEN_GAMES -> allResults
                 .sortedByDescending { it.matchTime }
                 .take(10)
@@ -79,6 +86,39 @@ class ResultViewModel @Inject constructor(
             }
         }
         teamResultListState.value = filteredResults
+
+        // Update wins and losses based on filter
+        updateWinsAndLosses(filteredResults)
+    }
+
+    private fun updateWinsAndLosses(results: List<Result>) {
+        // For ALL_GAMES filter, use the adjustment data from API
+        if (currentFilter.value == FilterType.ALL_GAMES) {
+            filteredWins.value = adjustment.value?.wins ?: 0
+            filteredLosses.value = adjustment.value?.losses ?: 0
+        } else {
+            // For other filters, calculate from filtered results
+            var wins = 0
+            var losses = 0
+
+            results.forEach { result ->
+                val isHomeTeam = result.homeName == teamNameState.value
+                val won = if (isHomeTeam) {
+                    result.homeScore > result.awayScore
+                } else {
+                    result.awayScore > result.homeScore
+                }
+
+                if (won) {
+                    wins++
+                } else {
+                    losses++
+                }
+            }
+
+            filteredWins.value = wins
+            filteredLosses.value = losses
+        }
     }
 
     fun onFilterSelected(filterType: FilterType) {
@@ -116,7 +156,14 @@ class ResultViewModel @Inject constructor(
     private fun getTeamAdjustments(teamName: String) {
         adjustmentService.getAdjustmentByTeam(teamName)
             .subscribeBy(
-                onSuccess = { adjustment.value = it },
+                onSuccess = {
+                    adjustment.value = it
+                    // Update wins/losses after adjustment data is loaded
+                    if (currentFilter.value == FilterType.ALL_GAMES) {
+                        filteredWins.value = it.wins ?: 0
+                        filteredLosses.value = it.losses ?: 0
+                    }
+                },
                 onError = { Timber.d("API_ADJUSTMENT %s", it.message.toString()) }
             )
             .disposedBy(compositeDisposable)

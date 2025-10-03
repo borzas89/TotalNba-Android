@@ -36,15 +36,21 @@ class PredictionListViewModel @Inject constructor(
     private fun gettingMatchesByDay() {
         errorTitle.set("")
         filterDay.value?.let { filteredDay ->
+            Log.d("TOTAL_NBA_API_DAY", "Fetching predictions for date: $filteredDay")
             predictionService.getPredictedMatchesByDay(filteredDay)
                 .simpleSubscribe(
                     onSuccess = {
+                        Log.d("TOTAL_NBA_API_DAY", "Success! Received ${it.size} predictions")
+                        it.forEachIndexed { index, prediction ->
+                            Log.d("TOTAL_NBA_API_DAY", "Prediction $index: ${prediction.awayTeam} @ ${prediction.homeTeam}")
+                        }
                         _predictionList.value = it
                         refreshStates()
                     },
                     onError = {
+                        Log.e("TOTAL_NBA_API_DAY", "Error fetching predictions: ${it.message}", it)
+                        it.printStackTrace()
                         errorTitle.set("Something went wrong try again later...")
-                        Log.d("TOTAL_NBA_API_DAY", it.message.toString())
                     }
                 ).addTo(compositeDisposable)
 

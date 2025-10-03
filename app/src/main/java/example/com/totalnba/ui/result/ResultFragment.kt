@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -81,6 +82,8 @@ class ResultFragment : Fragment() {
         val results by viewModel.teamResultListState
         val showDialog by viewModel.showFilterDialog
         val currentFilter by viewModel.currentFilter
+        val filteredWins by viewModel.filteredWins
+        val filteredLosses by viewModel.filteredLosses
 
         MaterialTheme {
             Screen(
@@ -94,6 +97,8 @@ class ResultFragment : Fragment() {
                 elements = results,
                 showFilterDialog = showDialog,
                 currentFilter = currentFilter,
+                filteredWins = filteredWins,
+                filteredLosses = filteredLosses,
                 onFilterSelected = viewModel::onFilterSelected,
                 onDismissDialog = viewModel::hideFilterDialog
             )
@@ -112,6 +117,8 @@ class ResultFragment : Fragment() {
         elements: List<Result>,
         showFilterDialog: Boolean,
         currentFilter: FilterType,
+        filteredWins: Int,
+        filteredLosses: Int,
         onFilterSelected: (FilterType) -> Unit,
         onDismissDialog: () -> Unit
     ) {
@@ -154,28 +161,20 @@ class ResultFragment : Fragment() {
             Column(
                 Modifier
                     .background(colorResource(id = teamColor))
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = teamName,
-                    style = MaterialTheme.typography.subtitle1.color(Color.White),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .testTag("Result.TeamName")
-                        .padding(start = 12.dp)
-                )
                 Text(
                     text = stringResource(
                         id = R.string.wins_and_losses_count_title,
-                        adjustment?.wins ?: 0,
-                        adjustment?.losses?:0),
-                    style = MaterialTheme.typography.subtitle1.color(Color.White),
+                        filteredWins,
+                        filteredLosses),
+                    style = MaterialTheme.typography.h5.color(Color.White),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .testTag("Result.WinAndLose")
-                        .padding(start = 12.dp, bottom = 12.dp)
+                        .padding(vertical = 16.dp)
                 )
             }
             LazyColumn(

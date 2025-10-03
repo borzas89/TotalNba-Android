@@ -21,11 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 enum class FilterType {
+    ALL_GAMES,
+    LAST_FIVE_GAMES,
     LAST_TEN_GAMES,
     HOME_GAMES,
     AWAY_GAMES,
-    HEAD_TO_HEAD,
-    ALL_GAMES
+    HEAD_TO_HEAD
 }
 
 @Composable
@@ -54,6 +55,7 @@ fun FilterDialog(
 
                 val filterOptions = listOf(
                     FilterType.ALL_GAMES to "All Games",
+                    FilterType.LAST_FIVE_GAMES to "Last 5 Games",
                     FilterType.LAST_TEN_GAMES to "Last 10 Games",
                     FilterType.HOME_GAMES to "Home Games Only",
                     FilterType.AWAY_GAMES to "Away Games Only",
