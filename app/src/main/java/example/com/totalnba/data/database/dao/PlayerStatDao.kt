@@ -33,4 +33,7 @@ interface PlayerStatDao {
 
     @Query("SELECT * FROM player_stat WHERE fullName LIKE '%' || :query || '%' OR  team LIKE '%' || :query || '%'")
     fun getByNameOrTeam(query: String): Flowable<List<PlayerStat>>
+
+    @Query("UPDATE player_stat SET playerPicsId = :picsId WHERE fullName = :fullName")
+    fun updatePlayerPicsId(fullName: String, picsId: String): Completable
 }

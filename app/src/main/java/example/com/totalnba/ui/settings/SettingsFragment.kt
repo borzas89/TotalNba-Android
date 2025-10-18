@@ -123,6 +123,7 @@ fun SettingsScreen(
                     InfoCard(
                         title = "TotalNBA",
                         subtitle = "NBA Game Predictions & Stats",
+                        version = context.packageManager.getPackageInfo(context.packageName, 0).versionName,
                         icon = Icons.Filled.Settings
                     )
 
@@ -245,6 +246,7 @@ fun ThemeSettingCard(
 fun InfoCard(
     title: String,
     subtitle: String,
+    version: String,
     icon: ImageVector
 ) {
     Card(
@@ -277,6 +279,12 @@ fun InfoCard(
                     text = subtitle,
                     style = MaterialTheme.typography.body2,
                     color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
+                )
+                Text(
+                    text = "Version $version",
+                    style = MaterialTheme.typography.caption,
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+                    modifier = Modifier.padding(top = 4.dp)
                 )
             }
         }

@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,9 +27,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import example.com.totalnba.R
 import example.com.totalnba.ui.theme.AppTheme
+import example.com.totalnba.util.imageResolverId
 
 data class StandingItem(
     val rank: Int,
@@ -43,6 +46,8 @@ data class StandingItem(
 @AndroidEntryPoint
 class StandingsFragment : Fragment() {
 
+    private val viewModel: StandingsViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,7 +57,7 @@ class StandingsFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 AppTheme {
-                    StandingsScreen()
+                    StandingsScreen(viewModel = viewModel)
                 }
             }
         }
@@ -60,9 +65,11 @@ class StandingsFragment : Fragment() {
 }
 
 @Composable
-fun StandingsScreen() {
-    val easternStandings = getDummyEasternStandings()
-    val westernStandings = getDummyWesternStandings()
+fun StandingsScreen(viewModel: StandingsViewModel) {
+    val easternStandings by viewModel.easternStandings.observeAsState(emptyList())
+    val westernStandings by viewModel.westernStandings.observeAsState(emptyList())
+    val isLoading by viewModel.isLoading.observeAsState(false)
+    val errorMessage by viewModel.errorMessage.observeAsState()
 
     Column(
         modifier = Modifier
@@ -126,23 +133,51 @@ fun StandingsScreen() {
         }
 
         // Standings List
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            // Header row
-            item {
-                StandingsHeaderRow()
-            }
+        Box(modifier = Modifier.weight(1f)) {
+            when {
+                isLoading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                errorMessage != null -> {
+                    Column(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = errorMessage ?: "Unknown error",
+                            color = MaterialTheme.colors.error,
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(onClick = { viewModel.fetchStandings() }) {
+                            Text("Retry")
+                        }
+                    }
+                }
+                else -> {
+                    LazyColumn(
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        // Header row
+                        item {
+                            StandingsHeaderRow()
+                        }
 
-            // Data rows
-            val standings = if (selectedConference == "Eastern") easternStandings else westernStandings
-            itemsIndexed(standings) { index, team ->
-                StandingsRow(
-                    standing = team,
-                    isPlayoffPosition = index < 8
-                )
+                        // Data rows
+                        val standings = if (selectedConference == "Eastern") easternStandings else westernStandings
+                        itemsIndexed(standings) { index, team ->
+                            StandingsRowFromViewModel(
+                                standing = team,
+                                isPlayoffPosition = index < 8
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -171,7 +206,7 @@ private fun StandingsHeaderRow() {
             )
             Text(
                 text = "TEAM",
-                modifier = Modifier.weight(2f),
+                modifier = Modifier.weight(3f),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
@@ -200,13 +235,90 @@ private fun StandingsHeaderRow() {
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
             )
+        }
+    }
+}
+
+@Composable
+private fun StandingsRowFromViewModel(
+    standing: StandingTeam,
+    isPlayoffPosition: Boolean
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        backgroundColor = if (isPlayoffPosition) {
+            MaterialTheme.colors.primary.copy(alpha = 0.05f)
+        } else {
+            MaterialTheme.colors.surface
+        },
+        elevation = 1.dp
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Rank
             Text(
-                text = "GB",
-                modifier = Modifier.width(50.dp),
-                fontSize = 12.sp,
+                text = standing.rank.toString(),
+                modifier = Modifier.width(30.dp),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = if (isPlayoffPosition) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface
+            )
+
+            // Team logo and name
+            Row(
+                modifier = Modifier.weight(3f),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = imageResolverId(standing.teamName)),
+                    contentDescription = standing.teamName,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(6.dp))
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = standing.teamName,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colors.onSurface,
+                    maxLines = 2
+                )
+            }
+
+            // Wins
+            Text(
+                text = standing.wins.toString(),
+                modifier = Modifier.width(40.dp),
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
+                color = MaterialTheme.colors.onSurface
+            )
+
+            // Losses
+            Text(
+                text = standing.losses.toString(),
+                modifier = Modifier.width(40.dp),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.onSurface
+            )
+
+            // Win Percentage
+            Text(
+                text = String.format("%.3f", standing.winPercentage),
+                modifier = Modifier.width(60.dp),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.onSurface
             )
         }
     }
@@ -346,10 +458,4 @@ private fun getDummyWesternStandings(): List<StandingItem> {
     )
 }
 
-@Preview
-@Composable
-fun StandingsScreenPreview() {
-    AppTheme {
-        StandingsScreen()
-    }
-}
+// Preview removed - requires ViewModel with API dependencies

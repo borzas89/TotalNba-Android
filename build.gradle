@@ -7,10 +7,10 @@ buildscript {
         minSdkVersion = 22
         targetSdkVersion = 34
 
-        kotlinVersion = '1.9.21'
+        kotlinVersion = '1.9.25'
 
-        compose_bom_version = '2023.10.01'
-        compose_compiler = '1.5.7'
+        compose_bom_version = '2024.12.01'
+        compose_compiler = '1.5.15'
 
         // App dependencies
         androidXCoreTestingVersion = '2.1.0'
@@ -61,7 +61,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'com.android.tools.build:gradle:8.7.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
@@ -81,4 +81,9 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+wrapper {
+    gradleVersion = '8.11.1'
+    distributionType = Wrapper.DistributionType.ALL
 }

@@ -14,7 +14,12 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.Date
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class TotalNbaRetrofit
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -29,6 +34,9 @@ class NetworkModule {
     fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .connectTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+                .writeTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
                 .build()
     }
 
@@ -51,7 +59,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
+    @TotalNbaRetrofit
+    fun provideTotalNbaRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(API_URL)
@@ -62,7 +71,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideTotalNbaApi(retrofit: Retrofit): TotalNbaApi {
+    fun provideTotalNbaApi(@TotalNbaRetrofit retrofit: Retrofit): TotalNbaApi {
         return retrofit.create(TotalNbaApi::class.java)
     }
 

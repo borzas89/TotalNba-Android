@@ -54,4 +54,10 @@ interface TotalNbaApi {
     @GET("api/adjustments")
     fun getAdjustmentByTeamName(@Query("teamName") teamName: String): Single<AdjustmentDto>
 
+    @GET("api/adjustments/all")
+    fun getAllAdjustments(): Single<List<AdjustmentDto>>
+
+    @GET("api/v2/nba-players/search")
+    fun searchNbaPlayers(@Query("name") name: String): Single<List<NbaPlayerDto>>
+
 }

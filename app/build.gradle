@@ -45,7 +45,7 @@ android {
         jvmTarget = '1.8'
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.7'
+        kotlinCompilerExtensionVersion '1.5.15'
     }
     packagingOptions {
         resources.excludes.add("META-INF/*")
@@ -73,6 +73,7 @@ dependencies {
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
     implementation "com.jakewharton.timber:timber:$timberVersion"
@@ -83,6 +84,8 @@ dependencies {
 
     implementation "androidx.compose.ui:ui"
     implementation "androidx.compose.material:material"
+    implementation "androidx.compose.material:material-icons-core"
+    implementation "androidx.compose.material:material-icons-extended"
     implementation "androidx.compose.ui:ui-tooling"
     implementation "androidx.compose.ui:ui-tooling-preview"
     implementation "androidx.compose.foundation:foundation"
@@ -131,7 +134,7 @@ dependencies {
 
     // glide
     implementation 'com.github.bumptech.glide:glide:4.14.2'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+    kapt 'com.github.bumptech.glide:compiler:4.14.2'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.14.2'
     implementation 'com.github.bumptech.glide:recyclerview-integration:4.14.2'
 
